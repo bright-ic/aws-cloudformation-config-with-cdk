@@ -7,7 +7,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
-}
+
+.signup_form { margin-bottom: 40px; width: 100%; max-width: 450px; margin:0 auto; padding:25px}
+.signup_form input {width: 100%; padding:8px 15px; margin-bottom: 15px;}
+.signup_form button {padding:10px 20px; background-color: green; border:0px; color:#fff;}

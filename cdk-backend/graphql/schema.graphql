@@ -1,0 +1,114 @@
+type Note {
+  id: String!
+  email: String!
+  name: String!
+  completed: Boolean!
+}
+
+input NoteInput {
+  id: String!
+  email: String!
+  name: String!
+  completed: Boolean!
+}
+
+input UpdateNoteInput {
+  id: String!
+  email: String!
+  name: String
+  completed: Boolean
+}
+
+type NoteConnection {
+  items: [Note]
+  nextToken: String
+}
+
+
+type User @aws_cognito_user_pools @aws_api_key @aws_iam {
+	id: String!
+	firstName: String
+	lastName: String
+  email: String!
+	gender: String
+  userType: String
+	phoneNumber: String
+	avatarUrl: String
+  accessCode: String
+	registrationStatus: String
+	createdAt: String
+	updatedAt: String
+}
+
+input UserInput {
+	id: String
+	firstName: String
+	lastName: String
+  email: String!
+	gender: String
+  userType: String
+	phoneNumber: String
+	avatarUrl: String
+  accessCode: String
+	registrationStatus: String
+}
+
+input UpdateUserInput {
+	id: String!
+	firstName: String
+	lastName: String
+  email: String
+	gender: String
+  userType: String
+	phoneNumber: String
+	avatarUrl: String
+  accessCode: String
+	registrationStatus: String
+}
+
+type UserResult {
+  success: Boolean
+  data: AWSJSON
+  errors: AWSJSON
+}
+
+type UsersResult {
+  success: Boolean
+  data: UserConnection
+  errors: String
+}
+
+enum ModelSortDirection {
+	ASC,
+	DESC
+}
+
+type UserConnection {
+  items: [User]
+  nextToken: String
+}
+
+input GetUsersInput {
+	query: String
+  nextToken: String
+	limit: Int
+}
+
+
+type Query {
+  getNote(id: String!): Note
+  getNotesByUser(email: String!, limit: Int): [Note]
+  getNotes(limit: Int): [Note]
+  getUserById(id:String!): UserResult @aws_cognito_user_pools @aws_api_key @aws_iam
+	getUserByEmail(email: String!): UserResult @aws_cognito_user_pools @aws_api_key @aws_iam
+	fetchUsers(limit: Int, nextToken: String): UsersResult @aws_cognito_user_pools @aws_api_key @aws_iam
+  fetchUsersByParam(queryParams: GetUsersInput): UserConnection @aws_cognito_user_pools @aws_api_key @aws_iam
+}
+
+type Mutation {
+  addNote(note: NoteInput!): Note
+  updateNoteById(note: UpdateNoteInput!): Note
+  deleteNote(noteId: String!): String
+  addUser(user: UserInput!): UserResult @aws_cognito_user_pools @aws_api_key @aws_iam
+	updateUserById(user: UpdateUserInput!): UserResult @aws_cognito_user_pools @aws_api_key @aws_iam
+}
