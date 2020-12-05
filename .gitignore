@@ -10,7 +10,7 @@
 
 # production
 /build
-cdk-exports.json
+# cdk-exports.json
 
 # misc
 .DS_Store
