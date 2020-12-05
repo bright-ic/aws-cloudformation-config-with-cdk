@@ -3,6 +3,8 @@ import * as appsync from '@aws-cdk/aws-appsync';
 import * as ddb from '@aws-cdk/aws-dynamodb';
 import * as lambda from '@aws-cdk/aws-lambda';
 import * as cognito from '@aws-cdk/aws-cognito';
+import * as codecommit from "@aws-cdk/aws-codecommit";
+import * as amplify from "@aws-cdk/aws-amplify";
 import * as iam from "@aws-cdk/aws-iam";
 import CognitoAuthRole from "./CognitoAuthRole";
 // import noteTableResolver from "../resolvers/noteResolvers";
@@ -145,5 +147,39 @@ export class CdkBackendStack extends cdk.Stack {
         //   new NoteStack(this, id, {api});
         UserStack(this, {api});
         NoteStack(this, {api});
+
+        // **********************  DEFINING CODE COMMIT REPOSITORY ***************************
+        //Creation of the source control repository
+        const Repository = new codecommit.Repository(
+            this,
+            "TodoAppRepo",
+            {
+            repositoryName: eventConfig.id+"todo-app-repo",
+            description:
+                "CodeCommit repository that will be used as the source repository for the sample todo react app and the cdk app",
+            }
+        );
+
+        new cdk.CfnOutput(this, "repositoryHTTPUrl", {
+            value: Repository.repositoryCloneUrlHttp
+        });
+        new cdk.CfnOutput(this, "repositorySSHUrl", {
+            value: Repository.repositoryCloneUrlSsh
+        });
+        new cdk.CfnOutput(this, "repositoryName", {
+            value: Repository.repositoryName
+        });
+        // **********************  DEFINING AMPLIFY APPLICATION ***************************
+        // Creation of the Amplify Application
+        const amplifyApp = new amplify.App(this, eventConfig.id+"todo-react-app", {
+            sourceCodeProvider: new amplify.CodeCommitSourceCodeProvider({
+            repository: Repository,
+            }),
+        });
+        const masterBranch = amplifyApp.addBranch("master");
+
+        new cdk.CfnOutput(this, "amplifyDefaultDomain", {
+            value: amplifyApp.defaultDomain
+        });
     }
 }
