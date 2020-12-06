@@ -69,7 +69,7 @@ export class CdkBackendStack extends cdk.Stack {
 
         // create new identity pool
         const identityPool = new cognito.CfnIdentityPool(this, eventConfig.id+"IdentityPool", {
-            allowUnauthenticatedIdentities: false, // Don't allow unathenticated users
+            allowUnauthenticatedIdentities: false, // Don't allow unauthenticated users
             cognitoIdentityProviders: [
               {
                 clientId: userPoolClient.userPoolClientId,
@@ -92,10 +92,6 @@ export class CdkBackendStack extends cdk.Stack {
 
         new cdk.CfnOutput(this, "IdentityPoolId", {
             value: identityPool.ref,
-        });
-
-        new cdk.CfnOutput(this, "AuthenticatedRoleName", {
-            value: authenticatedRole.role.roleName
         });
 
         // **********************  CREATING APPSYNC API *******************************************
@@ -165,9 +161,6 @@ export class CdkBackendStack extends cdk.Stack {
         });
         new cdk.CfnOutput(this, "repositorySSHUrl", {
             value: Repository.repositoryCloneUrlSsh
-        });
-        new cdk.CfnOutput(this, "repositoryName", {
-            value: Repository.repositoryName
         });
         // **********************  DEFINING AMPLIFY APPLICATION ***************************
         // Creation of the Amplify Application

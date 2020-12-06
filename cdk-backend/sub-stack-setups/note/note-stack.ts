@@ -27,13 +27,6 @@ export default (scope: cdk.Construct, props?:any) => {
             })
         );
       
-        // Output values
-        new cdk.CfnOutput(scope, "aws_dyanamodb_note_table", {
-        value: noteTable.tableName
-        });
-        new cdk.CfnOutput(scope, "aws_dyanamodb_note_table_arn", {
-        value: noteTable.tableArn
-        });
 
         // **********************  LAMBDA DEFINITION ********************************
         const notesLambda = new lambda.Function(scope, eventConfig.id+'TodoAppNotesHandler', {
