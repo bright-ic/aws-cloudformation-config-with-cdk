@@ -16,12 +16,6 @@ const CDKConfig = {
   aws_cognito_region: cdkStack[eventConfig.id]["awsstackregion"],
   aws_user_pools_id: cdkStack[eventConfig.id]["UserPoolId"],
   aws_user_pools_web_client_id: cdkStack[eventConfig.id]["UserPoolClientId"],
-
-  // Auth: {
-  //   region: CdkBackendStack.awsstackregion, // or your region
-  //   userPoolId: CdkBackendStack.UserPoolId,
-  //   userPoolWebClientId: CdkBackendStack.UserPoolClientId
-  // }
 }
 
 Amplify.configure(CDKConfig);

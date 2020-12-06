@@ -35,16 +35,6 @@ export default (scope: cdk.Construct, props?:any) => {
         })
     );
 
-
-
-    // Output values
-    new cdk.CfnOutput(scope, "aws_dyanamodb_user_table", {
-        value: userTable.tableName
-    });
-    new cdk.CfnOutput(scope, "aws_dyanamodb_user_table_arn", {
-        value: userTable.tableArn
-    });
-
     // **********************  LAMBDA DEFINITION ********************************
     const userLambda = new lambda.Function(scope, eventConfig.id+'AppSyncTodoUserHandler', {
         runtime: lambda.Runtime.NODEJS_12_X,
